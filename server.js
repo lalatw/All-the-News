@@ -18,6 +18,12 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use(express.static("public"));
 
+app.engine("handlebars", exphbs({ defaultLayout: "main" }));
+app.set("view engine", "handlebars");
+app.get('/', function (req, res) {
+    res.render('index');
+  });
+
 // Connect to the Mongo DB
 mongoose.connect("mongodb://localhost/allnews", { useNewUrlParser: true });
 
