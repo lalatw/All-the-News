@@ -95,7 +95,7 @@ app.get("/api/scrape", function (req, res) {
              .then(function(dbArticle) {
                  console.log(dbArticle);
              })
-            .catch(function(err) {
+             .catch(function(err) {
                 return res.json(err)
             })    
 

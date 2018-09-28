@@ -38,7 +38,6 @@
                     <div class="card-body">
                         <div id="article-link">{{this.link}}</div>
                         <div id="article-summary">{{this.summary}}</div>
-                        {{!-- <button data-id="{{this.__id}}" class="devoured uk-button uk-button-danger uk-button-small">Devoured</button>--}}
 
                     </div>
 
@@ -49,7 +48,7 @@
         </div>
         <div class="col-md-3 order-md-2 mb-4">
             <h4>Article Notes</h4>
-            <ul id="noteList" class="list-group mb-3" style="visibility: hidden">
+            <ul class="noteList list-group mb-3" style="display: none">
                 {{#each notes}}
                 <li class="list-group-item d-flex justify-content-between lh-condensed">
                     <div>
