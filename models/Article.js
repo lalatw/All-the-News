@@ -5,7 +5,8 @@ var Schema = mongoose.Schema;
 var ArticleSchema = new Schema({
   title: {
     type: String,
-    required: true
+    required: true,
+    unique: true
   },
   link: {
     type: String,
@@ -15,8 +16,13 @@ var ArticleSchema = new Schema({
     type: String,
     required: true
   },
+  image: {
+    type: String,
+    required: true
+  },
   saved: {
-      type: Boolean
+      type: Boolean,
+      default: false
   },
   note: {
     type: Schema.Types.ObjectId,

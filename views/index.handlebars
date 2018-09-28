@@ -2,10 +2,10 @@
     <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav">
             <li class="nav-item active">
-                <a class="nav-link" href="#">Home</a>
+                <a class="nav-link" href="/">Home</a>
             </li>
             <li class="nav-item active">
-                <a class="nav-link" href="#">Saved</a>
+                <a class="nav-link" href="/saved">Saved Articles</a>
             </li>
         </ul>
     </div>
@@ -16,23 +16,29 @@
         <h2 class="lead">DIGITAL TRENDS</h2>
         <hr class="my-4">
         <div class="container justify-content-center">
-            <a class="btn btn-success btn-lg" href="#" role="button">SCRAPE NEW ARTICLES</a>
-            <a class="btn btn-success btn-lg" href="#" role="button">CLEAR ARTICLES</a>
+            <a class="scrapeBtn btn btn-success btn-lg" href="#" role="button">SCRAPE NEW ARTICLES</a>
+            <a class="clearBtn btn btn-success btn-lg" href="#" role="button">CLEAR ARTICLES</a>
         </div>
     </div>
 </div>
 
 
-<div class="container-fluid" id="wrapper">
+<div class="container-fluid" id="mainwrapper">
+    {{#each articles}}
+    {{#unless saved}}
     <div class="card">
         <div class="card-header" id="article-header">
-            <h3>This is header<span><a id="saveBtn" class="btn btn-danger" href="api/saved" role="button" style="float: right">SAVE
+            <h3>{{this.title}}<span><a class="saveBtn btn btn-danger" data-id="{{_id}}" href="api/saved" role="button" style="float: right">SAVE
                         ARTICLE</a></span></h3>
         </div>
         <div class="card-body">
-            <div id="article-link">This is link</div>
-            <div id="article-summary">This is summary</div>
+            <div id="article-link">{{this.link}}</div>
+            <div id="article-summary">{{this.summary}}</div>
+            {{!-- <button data-id="{{this.__id}}" class="devoured uk-button uk-button-danger uk-button-small">Devoured</button>--}}
+
         </div>
 
     </div>
+    {{/unless}}
+    {{/each}}
 </div>
