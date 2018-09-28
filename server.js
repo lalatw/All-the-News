@@ -36,7 +36,7 @@ app.set("view engine", "handlebars");
 // Routes
 
 
-// Route for getting all Articles from the db
+// HTML Route for getting all Articles from the db
 app.get("/", function(req, res) {
     db.Article.find({})
       .then(function(dbArticle) {
@@ -51,6 +51,7 @@ app.get("/", function(req, res) {
       });
 });  
 
+// HTML Route for getting all saved Articles from the db
 app.get("/saved", function(req, res) {
     db.Article.find({})
       .then(function(dbArticle) {
@@ -66,7 +67,7 @@ app.get("/saved", function(req, res) {
 });    
   
 
-// A GET route for scraping the echoJS website
+// A GET route for scraping the digitaltrends website
 app.get("/api/scrape", function (req, res) {
     // First, we grab the body of the html with axios
     request("https://www.digitaltrends.com/", function (error, response, html) {
@@ -105,7 +106,7 @@ app.get("/api/scrape", function (req, res) {
     });
 });
 
-
+//A GET route to clear articles from db
 app.get("/api/clear", function(req, res) {
     db.Article.remove({})
       .then(function(dbCleard) {
@@ -118,14 +119,13 @@ app.get("/api/clear", function(req, res) {
 });   
 
 
-// Route for grabbing a specific Article by id, populate it with it's note
+// A GET route for grabbing a specific Article by id, populate it with it's note
 app.get("/articles/:id", function(req, res) {
    
     db.Article.findOne({ _id: req.params.id })
     
       .populate("note")
       .then(function(dbArticle) {
-        
         res.json(dbArticle);
       })
       .catch(function(err) {
@@ -133,22 +133,26 @@ app.get("/articles/:id", function(req, res) {
         res.json(err);
       });
   });
+  
 
-  app.get("/api/articles/:id", function(req, res) {
+  // A GET route to get all notes, but somehow this is not functional.
+  app.get("/api/notes", function(req, res) {
+   
     db.Note.find({})
       .then(function(dbNote) {
         var hbsObject = {
           notes: dbNote
         };
-        res.render("saved", hbsObject);
+        res.render("save", hbsObject);
       })
       .catch(function(err) {
-        // If an error occurred, send it to the client
+        
         res.json(err);
       });
-});  
+  });
 
 
+// A POST route to create new note
 app.post("/api/notes/:id", function(req, res) {
     // Create a new note and pass the req.body to the entry
     db.Note.create(req.body)
@@ -168,6 +172,7 @@ app.post("/api/notes/:id", function(req, res) {
 
 
 
+// A POST route to update saved boolean to true for an artilce when saved
 app.post("/api/saved/:id", function(req, res) {
     db.Article.findOneAndUpdate({ _id: req.params.id}, {saved: true})
         .then(function(dbSaved) {
@@ -175,6 +180,7 @@ app.post("/api/saved/:id", function(req, res) {
         });
 })
 
+// A POST route to update saved boolean to false for an artilce when unsaved
 app.post("/api/unsaved/:id", function(req, res) {
     db.Article.findOneAndUpdate({ _id: req.params.id}, {saved: false})
         .then(function(dbUnSaved) {

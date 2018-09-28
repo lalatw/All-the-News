@@ -1,5 +1,5 @@
 $(function() {
-  // When you click the savenote button
+  // When click the save article button
   $(document).on("click", ".saveBtn", function(event) {
     event.preventDefault();
     var thisId = $(this).data("id");
@@ -18,7 +18,7 @@ $(function() {
   });
 
 
-
+ // When click the unsave article button
   $(document).on("click", ".unSaveBtn", function(event) {
     event.preventDefault();
     var thisId = $(this).data("id");
@@ -36,6 +36,7 @@ $(function() {
 
   });
   
+   // When click the scrape artible button
   $(document).on("click", ".scrapeBtn", function(event) {
     event.preventDefault();
     $.ajax({
@@ -50,7 +51,21 @@ $(function() {
 
   });
 
+  // $(document).on("click", ".allNotes", function(event) {
+  //   event.preventDefault();
+  //   $.ajax({
+  //     method: "GET",
+  //     url: "/api/notes/"
+  //   }).then(
+  //     function(data) {
+  //       console.log(data);
+  //       location.reload();
+  //     }
+  //   );
 
+  // });
+
+ // When click the clear article button
   $(document).on("click", ".clearBtn", function(event) {
     event.preventDefault();
     $.ajax({
@@ -66,77 +81,59 @@ $(function() {
   });
 
 
-
+ // When click the saved article note button
+ // This part is still buggy. A user has to keep clicking the button to see data shown.
 $(document).on("click", ".noteBtn", function(event) {
   event.preventDefault();
   var thisId = $(this).data("id");
-  console.log("id"+thisId);
-  // Send the POST request.
+
+  // Send the GET request.
   $.ajax({
     method: "GET",
     url: "/articles/" + thisId
   }).then(
-    function() {
-      $("#noteList").style.visibility = "visible";
+    function(data) {
+      $(".noteList").toggle();
+      $(".titleToShow").empty();
+      $(".titleToShow").text(data.title);
+      $(".titleToShow").attr("value", thisId);
+
+      if (data.note) {
+        // Place the body of the note in the body textarea
+        $(".notesbody").text(data.note.body);
+        // $(".noteList").append('<li class="noteList list-group mb-3"><div><h6>' + data.note.body + '</h6></div><span><button type="submit" class="btn btn-secondary">X</button></span></li>');
+      }
+      
+      
     }
   );  
 
 });
 
+
+ // When click the submit note button
 $(document).on("click", ".noteSubmitBtn", function(event) {
   event.preventDefault();
-  var thisId = $(this).data("id");
+  var thisId = $(".titleToShow").attr("value");
+  console.log(thisId);
   var newNote = {
     body: $("#noteInput").val().trim(),
   };
-  console.log("id"+thisId);
+
   // Send the POST request.
   $.ajax({
     method: "POST",
-    url: "/api/notes" + thisId,
+    url: "/api/notes/" + thisId,
     data: newNote
   }).then(
     function(sendData) {
       console.log(sendData);
-      $("#noteInput").empty()
+      $("#noteInput").val("");
     }
   );
 
 });
 
-
-
-
-
-
-// When you click the savenote button
-$(document).on("click", "#savenote", function() {
-  // Grab the id associated with the article from the submit button
-  var thisId = $(this).attr("data-id");
-
-  // Run a POST request to change the note, using what's entered in the inputs
-  $.ajax({
-    method: "POST",
-    url: "/articles/" + thisId,
-    data: {
-      // Value taken from title input
-      title: $("#titleinput").val(),
-      // Value taken from note textarea
-      body: $("#bodyinput").val()
-    }
-  })
-    // With that done
-    .then(function(data) {
-      // Log the response
-      console.log(data);
-      // Empty the notes section
-      $("#notes").empty();
-    });
-
-  // Also, remove the values entered in the input and textarea for note entry
-  $("#titleinput").val("");
-  $("#bodyinput").val("");
-});
 
 
 
