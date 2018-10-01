@@ -67,29 +67,20 @@ app.get("/saved", function(req, res) {
 });    
   
 
-// A GET route for scraping the digitaltrends website
+// A GET route for scraping the la times website
 app.get("/api/scrape", function (req, res) {
-    // First, we grab the body of the html with axios
-    request("https://www.digitaltrends.com/", function (error, response, html) {
+    request("http://www.latimes.com/", function (error, response, html) {
         var $ = cheerio.load(html);
         var results = [];
 
-        $(".m-river--item").each(function (i, element) {
+        $("h5").each(function (i, element) {
+            var title = $(element).text();
+            var link = $(element).children("a").attr("href");
 
-            var title = $(element).find(".m-river--title").text();
-            var link = $(element).find("a").attr("href");
-            var summary = $(element).find(".m-river--content").text();
-            var image = $(element).find("img").attr("src");
-
-            // Save these results in an object that we'll push into the results array we defined earlier
             results.push({
                 title: title,
-                link: link,
-                summary: summary,
-                image: image
-
+                link: link
             });
-
             console.log(results);
         
             db.Article.create(results)
@@ -99,10 +90,8 @@ app.get("/api/scrape", function (req, res) {
              .catch(function(err) {
                 return res.json(err)
             })    
-
         });
-
-
+        res.send("Scrape Complete");
     });
 });
 

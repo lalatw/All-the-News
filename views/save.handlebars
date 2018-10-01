@@ -13,7 +13,7 @@
 <div class="jumbotron jumbotron-fluid text-center">
     <div class="container">
         <h1 class="display-4">YOUR SAVED ARTICLES</h1>
-        <h2 class="lead">DIGITAL TRENDS</h2>
+        <h2 class="lead">Los Angles Times</h2>
         <hr class="my-4">
         <div class="container justify-content-center">
             <a class="clearBtn btn btn-success btn-lg" href="#" role="button">CLEAR ARTICLES</a>
@@ -36,8 +36,8 @@
                                 NOTES</a></span>
                     </div>
                     <div class="card-body">
-                        <div id="article-link">{{this.link}}</div>
-                        <div id="article-summary">{{this.summary}}</div>
+                        <a id="article-link" href='http://www.latimes.com/{{this.link}}'>http://www.latimes.com/{{this.link}}</a>
+                        {{!-- <div id="article-summary">{{this.summary}}</div> --}}
 
                     </div>
 

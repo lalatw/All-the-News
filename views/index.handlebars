@@ -13,7 +13,7 @@
 <div class="jumbotron jumbotron-fluid text-center">
     <div class="container">
         <h1 class="display-4">MONGO SCRAPER</h1>
-        <h2 class="lead">DIGITAL TRENDS</h2>
+        <h2 class="lead">Los Angles Times</h2>
         <hr class="my-4">
         <div class="container justify-content-center">
             <a class="scrapeBtn btn btn-success btn-lg" href="#" role="button">SCRAPE NEW ARTICLES</a>
@@ -32,8 +32,7 @@
                         ARTICLE</a></span></h3>
         </div>
         <div class="card-body">
-            <div id="article-link">{{this.link}}</div>
-            <div id="article-summary">{{this.summary}}</div>
+            <a id="article-link" href='http://www.latimes.com/{{this.link}}'>http://www.latimes.com/{{this.link}}</a>
         </div>
 
     </div>

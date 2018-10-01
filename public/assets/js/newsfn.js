@@ -1,4 +1,3 @@
-$(function() {
   // When click the save article button
   $(document).on("click", ".saveBtn", function(event) {
     event.preventDefault();
@@ -72,12 +71,14 @@ $(function() {
       method: "GET",
       url: "/api/clear/"
     }).then(
-      function(data) {
+      //after clear the data from database, there's an error message about UnhandledPromiseRejectionWarning
+      //right now it will need to refresh the page on browser to show the empty container
+      function() {
         console.log(data);
+        $("#mainwrapper").empty();
+        $("#mainwrapper").val("");
         location.reload();
-      }
-    );
-
+      })
   });
 
 
@@ -135,7 +136,4 @@ $(document).on("click", ".noteSubmitBtn", function(event) {
 });
 
 
-
-
-})
 
